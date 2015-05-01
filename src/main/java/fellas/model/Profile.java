@@ -2,8 +2,10 @@ package fellas.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,10 +26,9 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Id
-    private long userId;
 
     @ManyToOne
+    @Id
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
@@ -36,24 +37,27 @@ public class Profile {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             joinColumns = {
-                    @JoinColumn(name = "id", referencedColumnName = "profileId"),
-                    @JoinColumn(name = "userId",
-                            referencedColumnName = "userId") },
+                    @JoinColumn(name = "profileId", referencedColumnName = "id",
+                            insertable = false, updatable = false),
+                    @JoinColumn(name = "profileUserId", referencedColumnName = "userId",
+                            insertable = false, updatable = false) },
             inverseJoinColumns = {
-                    @JoinColumn(name = "id", referencedColumnName = "groupId"),
-                    @JoinColumn(name = "userId",
-                            referencedColumnName = "userId") })
-    private List<Group> groups;
+                    @JoinColumn(name = "groupId", referencedColumnName = "id",
+                            insertable = false, updatable = false),
+                    @JoinColumn(name = "groupUserId", referencedColumnName = "userId",
+                            insertable = false, updatable = false) })
+    private List<Group> groups; // CHECK profileUserId == groupUserId in SQL
 
     public Profile() {
     }
 
-    public User getUser() {
-        return user;
+    public Profile(User user, String name) {
+        this.user = user;
+        this.name = name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public long getId() {
+        return id;
     }
 
     public String getName() {
@@ -64,8 +68,16 @@ public class Profile {
         this.name = name;
     }
 
-    public long getId() {
-        return id;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
     }
 
 }

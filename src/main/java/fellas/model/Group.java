@@ -27,10 +27,8 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Id
-    private long userId;
-
     @ManyToOne
+    @Id
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 

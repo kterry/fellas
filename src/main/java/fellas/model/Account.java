@@ -1,5 +1,6 @@
 package fellas.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -12,14 +13,13 @@ public class Account {
 
     @Id
     private String id;
-    @Id
-    private long serviceId;
-
-    private String displayName;
 
     @ManyToOne
+    @Id
     @JoinColumn(name = "serviceId", referencedColumnName = "id")
     private Service service;
+
+    private String displayName;
 
     public String getDisplayName() {
         return displayName;

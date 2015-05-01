@@ -7,7 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Service {
@@ -18,7 +18,7 @@ public class Service {
     
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "service")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "service")
     private List<Account> accounts;
 
     public List<Account> getAccounts() {
